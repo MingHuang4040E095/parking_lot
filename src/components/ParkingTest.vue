@@ -24,6 +24,7 @@
   export default {
     data() {
       return {
+        isDev: false,
         //---------------- ↓ 地圖相關設定  ↓ ----------------
         url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         zoom: 16,
@@ -33,6 +34,7 @@
           zoomControl: false
         },
         //---------------- ↓  API相關參數  ↓ ----------------
+        apiUrl: 'https://citypark.tainan.gov.tw/App/parking.ashx?',
         apiParams: [{
             name: 'publicFreePark',
             params: 'verCode=5177E3481D&type=1&ftype=1&exportTo=2'
@@ -86,8 +88,11 @@
     methods: {
       //取得所有停車場資訊
       getParkInfo() {
+        //apiUrl
+        let apiUrl
+        this.isDev ? apiUrl = '/api?' : apiUrl = this.apiUrl
         this.apiParams.forEach(api => {
-          this.$http.get('/api?' + api.params).then(res => {
+          this.$http.get(apiUrl + api.params).then(res => {
               //將陣列解構，並存到所有資料的陣列 allData
               this.allData = [...this.allData, ...res.data]
               this.Category()
