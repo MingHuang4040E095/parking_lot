@@ -5,6 +5,7 @@
       <l-control-zoom position="bottomright"></l-control-zoom>
       <v-marker-cluster ref="clusterRef">
         <l-marker v-for="(park , index) in displayData" :key="`marker-${index}`" :lat-lng="park.經緯度.split('，')">
+          <l-popup :content="ParkingNews(index)"></l-popup>
         </l-marker>
       </v-marker-cluster>
     </l-map>
@@ -71,7 +72,7 @@
       getDataStatus: {
         handler(statusObj) {
           let i = 0
-          //將物件屬性轉成陣列，這樣就可以用forEach來取的屬性名稱
+          //將物件屬性轉成陣列，這樣就可以用forEach來取得屬性名稱
           Object.keys(statusObj).forEach(obj => {
             //當該屬性的值為true，就讓 i+1
             this.getDataStatus[obj] === true ? i++ : ''
@@ -89,7 +90,7 @@
           this.$http.get('/api?' + api.params).then(res => {
               //將陣列解構，並存到所有資料的陣列 allData
               this.allData = [...this.allData, ...res.data]
-              this.displayData = this.allData
+              this.Category()
             })
             .catch(err => console.log(err))
             .finally(() => {
@@ -98,6 +99,13 @@
             })
         })
       },
+      Category() {
+        if (this.category === '全部停車場') {
+          this.displayData = this.allData
+          return
+        }
+        this.displayData = this.allData = this.allData.filter(park => park.停車場型態 === this.category)
+      },
       //下拉選單改變時觸發
       changeCategory(val) {
         if (val === '全部停車場') {
@@ -105,6 +113,21 @@
           return
         }
         this.displayData = this.allData.filter(park => park.停車場型態 === val)
+      },
+      ParkingNews(index) {
+        return `
+      ${this.displayData[index].停車場型態}<br>
+      ${this.displayData[index].停車場名稱}
+      `
+      },
+      findMe() {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const latitude = position.coords.latitude
+          const longitude = position.coords.longitude
+          this.center = []
+          this.center.push(latitude)
+          this.center.push(longitude)
+        })
       }
     },
     mounted() {
@@ -115,6 +138,7 @@
         background: 'rgba(0, 0, 0, 0.7)'
       });
       this.getParkInfo()
+      this.findMe()
     }
   }
 
