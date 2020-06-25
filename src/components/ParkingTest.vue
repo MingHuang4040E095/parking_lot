@@ -124,9 +124,7 @@
         navigator.geolocation.getCurrentPosition((position) => {
           const latitude = position.coords.latitude
           const longitude = position.coords.longitude
-          this.center = []
-          this.center.push(latitude)
-          this.center.push(longitude)
+          this.center = [latitude, longitude]
         })
       }
     },
