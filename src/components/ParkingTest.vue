@@ -2,19 +2,15 @@
   <div id="map">
     <l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center" :options="mapOptions">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-      <l-control-zoom position="bottomright"></l-control-zoom>
+      <l-control-zoom position="topright"></l-control-zoom>
       <v-marker-cluster ref="clusterRef">
         <l-marker v-for="(park , index) in displayData" :key="`marker-${index}`" :lat-lng="park.經緯度.split('，')">
           <l-popup :content="ParkingNews(index)"></l-popup>
         </l-marker>
       </v-marker-cluster>
     </l-map>
-    <div class="SearchBtn">
-      <el-button @click="dialogVisible = true" class="SearchBtn" icon="el-icon-search" circle></el-button>
-    </div>
-    <el-dialog
-      title="停車場類別"
-      :visible.sync="dialogVisible">
+    <el-button @click="dialogVisible = true" class="search-btn" icon="el-icon-search" circle></el-button>
+    <el-dialog title="停車場類別" :visible.sync="dialogVisible">
       <div>
         <el-select style="width:100%" v-model="category" placeholder="請選擇" @change="changeCategory">
           <el-option v-for="item in modes" :key="item" :label="item" :value="item">
