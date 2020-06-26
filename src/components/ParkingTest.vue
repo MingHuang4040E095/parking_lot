@@ -88,11 +88,10 @@
     methods: {
       //取得所有停車場資訊
       getParkInfo() {
-        //apiUrl
-        let apiUrl
-        this.isDev ? apiUrl = '/api?' : apiUrl = this.apiUrl
+        const cors = 'https://cors-anywhere.herokuapp.com/'
+        const gov = 'https://citypark.tainan.gov.tw/App/parking.ashx?'
         this.apiParams.forEach(api => {
-          this.$http.get(apiUrl + api.params).then(res => {
+          this.$http.get(`${cors}${gov}${api.params}`).then(res => {
               //將陣列解構，並存到所有資料的陣列 allData
               this.allData = [...this.allData, ...res.data]
               this.Category()
