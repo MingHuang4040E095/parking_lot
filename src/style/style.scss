@@ -1,12 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import "~leaflet.markercluster/dist/MarkerCluster.css"; // 叢集CSS
 @import "~leaflet.markercluster/dist/MarkerCluster.Default.css"; // 叢集CSS
 @import url("https://unpkg.com/leaflet-geosearch@3.0.6/dist/geosearch.css");
 
 //-------------------------------------------//-------------------------------------------------------//
+
+@media (min-width:768px) {
+  .el-dialog{
+    width: 30%;
+  }
+}
+@media (max-width:768px) {
+  .el-dialog{
+    width: 75%;
+  }
+}
 body {
   margin: 0;
+  font-family: 'Roboto', Hiragino Sans GB;
 }
 
 #app {
@@ -25,16 +36,21 @@ body {
   width: 100%;
 }
 
-.info-box {
+.SearchBtn {
   position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
+  top: 1.2rem;
+  left: 1.2rem;
   z-index: 400;
-  width: 300px;
+  box-shadow: 2px 2px 2px 1px rgba(0.1, 0.1, 0.1, 0.4);
 }
-
-.info-box .info-box-title {
+.el-dialog__headerbtn {
+  font-size: 20px;
+}
+.el-dialog__title {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+}
+.el-dialog__body{
+  padding: 20px;
+  padding-bottom: 30px;
 }
