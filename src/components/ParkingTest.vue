@@ -2,7 +2,7 @@
   <div id="map">
     <l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center" :options="mapOptions">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-      <l-control-zoom position="topright"></l-control-zoom>
+      <l-control-zoom position="bottomleft"></l-control-zoom>
       <v-marker-cluster ref="clusterRef">
         <l-marker v-for="(park , index) in displayData" :key="`marker-${index}`" :lat-lng="park.經緯度.split('，')">
           <l-popup :content="ParkingNews(index)"></l-popup>
@@ -18,15 +18,6 @@
         </el-select>
       </div>
     </el-dialog>
-    <!--
-      <div class="info-box-title">停車場類別</div>
-      <div>
-        <el-select style="width:100%" v-model="category" placeholder="請選擇" @change="changeCategory">
-          <el-option v-for="item in modes" :key="item" :label="item" :value="item">
-          </el-option>
-        </el-select>
-      </div>
-      -->
   </div>
 </template>
 <script>
@@ -125,9 +116,11 @@
         this.dialogVisible = false
         if (val === '全部停車場') {
           this.displayData = this.allData
+          this.center = this.displayData[0].經緯度.split('，')
           return
         }
         this.displayData = this.allData.filter(park => park.停車場型態 === val)
+        this.center = this.displayData[0].經緯度.split('，')
       },
       ParkingNews(index) {
         return `
