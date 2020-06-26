@@ -9,7 +9,20 @@
         </l-marker>
       </v-marker-cluster>
     </l-map>
-    <el-card class="info-box">
+    <div class="SearchBtn">
+      <el-button @click="dialogVisible = true" class="SearchBtn" icon="el-icon-search" circle></el-button>
+    </div>
+    <el-dialog
+      title="停車場類別"
+      :visible.sync="dialogVisible">
+      <div>
+        <el-select style="width:100%" v-model="category" placeholder="請選擇" @change="changeCategory">
+          <el-option v-for="item in modes" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </div>
+    </el-dialog>
+    <!--
       <div class="info-box-title">停車場類別</div>
       <div>
         <el-select style="width:100%" v-model="category" placeholder="請選擇" @change="changeCategory">
@@ -17,7 +30,7 @@
           </el-option>
         </el-select>
       </div>
-    </el-card>
+      -->
   </div>
 </template>
 <script>
@@ -65,6 +78,7 @@
         },
         modes: ['全部停車場', '路邊停車格收費路段', '民營停車場', '公有收費停車場', '公有免費停車場'],
         category: '全部停車場',
+        dialogVisible: false
       }
     },
     watch: {
@@ -110,6 +124,7 @@
       },
       //下拉選單改變時觸發
       changeCategory(val) {
+        this.dialogVisible = false
         if (val === '全部停車場') {
           this.displayData = this.allData
           return
