@@ -94,7 +94,8 @@
         this.apiParams.forEach(api => {
           this.$http.get(`${cors}${gov}${api.params}`).then(res => {
               //將陣列解構，並存到所有資料的陣列 allData
-              this.allData = [...this.allData, ...res.data]
+              const origin = [...res.data].filter(park => typeof (park.經緯度) === 'string')
+              this.allData = [...this.allData, ...origin]
               this.Category()
             })
             .catch(err => console.log(err))
